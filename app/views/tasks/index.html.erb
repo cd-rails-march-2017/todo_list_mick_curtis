@@ -1,0 +1,21 @@
+<a href="/login" data-method="delete">Log out</a>
+<h1>Welcome, <%=session[:username]%></h1>
+<%@tasks.each do |task|%>
+<div class="task">
+  <p><%=task.content%> | <%=task.due_date.strftime("%B %d, %Y")%></p>
+  <form action="/tasks/<%= task.id%>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%=form_authenticity_token%>">
+    <input type="hidden" name="_method" value="PATCH">
+    <% if task.completed == false %>
+      <input type="submit" value="Complete">
+    <% else %>
+      <input type="submit" value="Nevermind">
+    <% end %>
+  </form>
+</div>
+
+<%end%>
+
+<a href="/tasks/new">Create a To Do Item</a>
+
+<a href="/sessions" data-method="patch">Toggle completed tasks</a>
